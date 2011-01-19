@@ -165,6 +165,8 @@ class MainPage(webapp.RequestHandler):
 		
 		self.response.out.write('</table><br>')
 
+		self.response.out.write('The full official schedule is available <a href="http://www.brynmawr.edu/transportation/bico.shtml">here</a>.<br><br>')
+
 		self.response.out.write('Questions? Email tdouglas@hc. This is an entirely student-run operation, with no official support or endorsement from Haverford College or Bryn Mawr College.')
 		self.response.out.write('</center></body></html>')
 
