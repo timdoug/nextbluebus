@@ -148,7 +148,7 @@ class MainPage(webapp.RequestHandler):
 		now_pretty = now.strftime('%I:%M %p')
 		now_pretty = now_pretty if now_pretty[0] != '0' else now_pretty[1:]
 		now_pretty = now.strftime('%A ') + now_pretty
-		self.response.out.write('up-to-date for this semester\'s new schedule!<br>Current time: ' + now_pretty + '<br><br>')
+		self.response.out.write('up-to-date as of 2011-01-24<br>Current time: ' + now_pretty + '<br><br>')
 		self.response.out.write('<table border=1 cellpadding=10><tr><td><font color=red>HC to BMC</font></td><td><font color=blue>BMC to HC</font></td></tr>')
 		hc_to_bmc_times = get_times(now, hc_to_bmc)
 		bmc_to_hc_times = get_times(now, bmc_to_hc)
