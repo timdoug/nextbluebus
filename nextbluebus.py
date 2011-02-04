@@ -136,7 +136,7 @@ class MainPage(webapp.RequestHandler):
 		
 		self.response.headers['Content-Type'] = 'text/html'
 		
-		self.response.out.write('<html><head><meta name="viewport" content="width=device-width" /><title>nextblueb.us</title>')
+		self.response.out.write('<html><head><!-- powered by momobox --><meta name="viewport" content="width=device-width" /><title>nextblueb.us</title>')
 		self.response.out.write('''<script type="text/javascript">
 
   var _gaq = _gaq || [];
