@@ -1,11 +1,11 @@
+import pytz
+import datetime
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp.util import run_wsgi_app
-import datetime
-import pytz
 
 NUM_TO_SHOW = 5
 
-hc_to_bmc = (
+HC_TO_BMC = (
 # Monday
 (
 ( 0, 15, 0), ( 7, 40, 0), ( 8, 40, 0), ( 8, 50, 1), ( 9, 40, 0), ( 9, 50, 1), (10, 15, 0),
@@ -68,7 +68,7 @@ hc_to_bmc = (
 ),
 )
 
-bmc_to_hc = (
+BMC_TO_HC = (
 # Monday
 (
 ( 0, 00, 0), ( 7, 25, 0), ( 8, 10, 0), ( 9, 10, 0), ( 9, 20, 1), (10, 00, 0), (10, 10, 1),
@@ -131,6 +131,40 @@ bmc_to_hc = (
 ),
 )
 
+PAGE_TEMPLATE = '''<html>
+<head>
+<!-- powered by momobox -->
+<meta name="viewport" content="width=device-width" />
+<title>nextblueb.us</title>
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-20844661-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+</head>
+<body><center>
+<h2>When is the next <font color=blue>Blue Bus</font>?</h2>
+Current time: %s<br>
+Now with sweepers in <b>bold</b>!<br>
+<br>
+<table border=1 cellpadding=10>
+<tr><td><font color="red">HC to BMC</font></td><td><font color="blue">BMC to HC</font></td></tr>
+%s</table><br>
+Up-to-date as of February 6th, 2011.<br>
+The full official schedule is available <a href="http://www.brynmawr.edu/transportation/bico.shtml">here</a>.<br>
+<br>
+Questions? Email tdouglas@hc. This is an entirely student-run operation, with no official support or endorsement from Haverford College or Bryn Mawr College.
+</center></body>
+</html>
+'''
+
+
 class BusTime(datetime.time):
 	def __init__(self, hour, minute, sweeperp):
 		datetime.time.__init__(hour, minute)
@@ -158,50 +192,28 @@ def get_times(now, table):
 
 class MainPage(webapp.RequestHandler):
 	def get(self):
-
 		est_tz = pytz.timezone('US/Eastern')
 		now = est_tz.normalize(datetime.datetime.utcnow().replace(tzinfo=pytz.UTC).astimezone(est_tz))
 		
-		self.response.headers['Content-Type'] = 'text/html'
-		
-		self.response.out.write('<html><head><!-- powered by momobox --><meta name="viewport" content="width=device-width" /><title>nextblueb.us</title>')
-		self.response.out.write('''<script type="text/javascript">
-
-  var _gaq = _gaq || [];
-  _gaq.push(['_setAccount', 'UA-20844661-1']);
-  _gaq.push(['_trackPageview']);
-
-  (function() {
-    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-  })();
-
-</script>''')
-		self.response.out.write('</head><body><center><h2>When is the next <font color=blue>Blue Bus</font>?</h2>')
 		now_pretty = now.strftime('%I:%M %p')
 		now_pretty = now_pretty if now_pretty[0] != '0' else now_pretty[1:]
 		now_pretty = now.strftime('%A ') + now_pretty
-		self.response.out.write('Current time: ' + now_pretty + '<br>Now with sweepers in <b>bold</b>!<br><br>')
-		self.response.out.write('<table border=1 cellpadding=10><tr><td><font color=red>HC to BMC</font></td><td><font color=blue>BMC to HC</font></td></tr>')
-		hc_to_bmc_times = get_times(now, hc_to_bmc)
-		bmc_to_hc_times = get_times(now, bmc_to_hc)
+
+		hc_to_bmc_times = get_times(now, HC_TO_BMC)
+		bmc_to_hc_times = get_times(now, BMC_TO_HC)
+		results_table = ''
 		
 		for i in xrange(NUM_TO_SHOW):
-			self.response.out.write('<tr><td><font color=red>%s</font></td><td><font color=blue>%s</font></td></tr>' %
-				(hc_to_bmc_times[i].html(), bmc_to_hc_times[i].html()))
-		
-		self.response.out.write('</table><br>Up-to-date as of 2011-02-06.<br>')
+			results_table += '<tr><td><font color="red">%s</font></td><td><font color="blue">%s</font></td></tr>\n' % \
+				(hc_to_bmc_times[i].html(), bmc_to_hc_times[i].html())
 
-		self.response.out.write('The full official schedule is available <a href="http://www.brynmawr.edu/transportation/bico.shtml">here</a>.<br><br>')
-
-		self.response.out.write('Questions? Email tdouglas@hc. This is an entirely student-run operation, with no official support or endorsement from Haverford College or Bryn Mawr College.')
-		self.response.out.write('</center></body></html>')
+		self.response.headers['Content-Type'] = 'text/html'
+		self.response.out.write(PAGE_TEMPLATE % (now_pretty, results_table))
 
 application = webapp.WSGIApplication([('/', MainPage)], debug=True)
 
 def main():
 	run_wsgi_app(application)
 
-if __name__ == "__main__":
+if __name__ == '__main__':
 	main()
