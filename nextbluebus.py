@@ -154,12 +154,13 @@ PAGE_TEMPLATE = '''<html>
 <body><center>
 <h2>When is the next <font color=blue>Blue Bus</font>?</h2>
 Current time: %s<br>
-Now with sweepers in <b>bold</b>!<br>
 <br>
 <table border=1 cellpadding=10>
 <tr><td><font color="red">HC to BMC</font></td><td><font color="blue">BMC to HC</font></td></tr>
 %s</table><br>
-Up-to-date as of <font color="red"><b>November 23rd</b></font>, 2011.<br>
+Sweepers in <b>bold</b>.<br>
+Up-to-date as of <font color="green"><b><u>November 23rd</u></b></font>, 2011.<br>
+<br>
 The full official schedule is available <a href="http://www.brynmawr.edu/transportation/bico.shtml">here</a>.<br>
 <br>
 Questions? Email tdouglas@hc. This is an entirely student-run operation, with no official support or endorsement from Haverford College or Bryn Mawr College.
