@@ -174,8 +174,7 @@ class BusTime(datetime.time):
 		self.sweeperp = sweeperp
 
 	def html(self):
-		res = self.strftime('%I:%M %p')
-		res = res if res[0] != '0' else res[1:]
+		res = self.strftime('%I:%M %p').lstrip('0')
 		if self.sweeperp:
 			res = '<b>%s</b>' % res
 		return res
@@ -197,11 +196,8 @@ class MainPage(webapp.RequestHandler):
 	def get(self):
 		est_tz = pytz.timezone('US/Eastern')
 		now = est_tz.normalize(datetime.datetime.utcnow().replace(tzinfo=pytz.UTC).astimezone(est_tz))
+		now_pretty = now.strftime('%A ') + now.strftime('%I:%M %p').lstrip('0')
 		
-		now_pretty = now.strftime('%I:%M %p')
-		now_pretty = now_pretty if now_pretty[0] != '0' else now_pretty[1:]
-		now_pretty = now.strftime('%A ') + now_pretty
-
 		hc_to_bmc_times = get_times(now, HC_TO_BMC)
 		bmc_to_hc_times = get_times(now, BMC_TO_HC)
 		results_table = ''
