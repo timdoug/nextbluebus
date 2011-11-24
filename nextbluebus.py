@@ -136,6 +136,8 @@ PAGE_TEMPLATE = '''<html>
 <!-- powered by momobox -->
 <meta name="viewport" content="width=device-width" />
 <meta name="apple-mobile-web-app-capable" content="yes">
+<!-- thanks to Dylan Neves-Cox for the icon -->
+<link rel="apple-touch-icon-precomposed" href="static/icon.png" />
 <title>nextblueb.us</title>
 <script type="text/javascript">
   var _gaq = _gaq || [];
