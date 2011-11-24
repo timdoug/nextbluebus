@@ -163,7 +163,9 @@ Sweepers in <b>bold</b>.<br>
 <br>
 The full official schedule is available <a href="http://www.brynmawr.edu/transportation/bico.shtml">here</a>.<br>
 <br>
-Questions? Email tdouglas@hc. This is an entirely student-run operation, with no official support or endorsement from Haverford College or Bryn Mawr College.
+Questions? Email timdoug at google's email service.<br>
+This is an entirely former-student-run operation, with no official support or endorsement from Haverford College or Bryn Mawr College.<br>
+Have some Python chops? Want to take over site maintainence? <a href="https://github.com/timdoug/nextbluebus">Fork me</a> on GitHub!
 </center></body>
 </html>
 '''
