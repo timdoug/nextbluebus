@@ -153,13 +153,13 @@ PAGE_TEMPLATE = '''<html>
 </head>
 <body><center>
 <h2>When is the next <font color=blue>Blue Bus</font>?</h2>
-Up-to-date as of <font color="green"><b><u>November 23rd</u></b></font>, 2011.<br>
 Current time: %s<br>
 <br>
 <table border=1 cellpadding=10>
 <tr><td><font color="red">HC to BMC</font></td><td><font color="blue">BMC to HC</font></td></tr>
 %s</table><br>
 Sweepers in <b>bold</b>.<br>
+Up-to-date as of <font color="green"><b><u>November 23rd</u></b></font>, 2011.<br>
 <br>
 The full official schedule is available <a href="http://www.brynmawr.edu/transportation/bico.shtml">here</a>.<br>
 <br>
