@@ -163,7 +163,7 @@ Up-to-date as of <font color="green"><b><u>April 11th</u></b></font>, 2012.<br>
 <br>
 The full official schedule is available <a href="http://www.brynmawr.edu/transportation/bico.shtml">here</a>.<br>
 <br>
-Questions? Email timdoug at google's email service.<br>
+Questions? Email <a href="mailto:me@timdoug.com">me@timdoug.com</a>.<br>
 This is an entirely former-student-run operation, with no official support or endorsement from Haverford College or Bryn Mawr College.<br>
 Have some Python chops? Want to take over site maintainence? <a href="https://github.com/timdoug/nextbluebus">Fork me</a> on GitHub!
 </center></body>
