@@ -185,7 +185,7 @@ app = flask.Flask(__name__)
 
 @app.route('/')
 def index():
-    est_tz = pytz.timezone('US/Eastern')
+    est_tz = pytz.timezone('America/New_York')
     now = est_tz.normalize(datetime.datetime.utcnow().replace(tzinfo=pytz.UTC).astimezone(est_tz))
     now_pretty = now.strftime('%A ') + now.strftime('%I:%M %p').lstrip('0')
 
