@@ -216,4 +216,9 @@ def index():
     return PAGE_TEMPLATE % (now_pretty, results_table)
 
 if __name__ == "__main__":
-    app.run()
+    import os
+    if 'PRODUCTION' in os.environ:
+        from gevent.wsgi import WSGIServer
+        WSGIServer(('0.0.0.0', 5000), app).serve_forever()
+    else:
+        app.run(debug=True)
