@@ -198,6 +198,6 @@ if __name__ == '__main__':
     import os
     if 'PRODUCTION' in os.environ:
         from gevent.wsgi import WSGIServer
-        WSGIServer(('0.0.0.0', 5000), app).serve_forever()
+        WSGIServer(('127.0.0.1', 5000), app).serve_forever()
     else:
         app.run(debug=True)
