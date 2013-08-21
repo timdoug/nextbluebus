@@ -174,28 +174,28 @@ Have some Python chops? Want to take over site maintainence? <a href="https://gi
 
 
 class BusTime(datetime.time):
-	def __init__(self, hour, minute, sweeperp):
-		datetime.time.__init__(hour, minute)
-		self.sweeperp = sweeperp
+    def __init__(self, hour, minute, sweeperp):
+        datetime.time.__init__(hour, minute)
+        self.sweeperp = sweeperp
 
-	def html(self):
-		res = self.strftime('%I:%M %p').lstrip('0')
-		if self.sweeperp:
-			res = '<b>%s</b>' % res
-		return res
+    def html(self):
+        res = self.strftime('%I:%M %p').lstrip('0')
+        if self.sweeperp:
+            res = '<b>%s</b>' % res
+        return res
 
 def get_times(now, table):
-	tab = []
+    tab = []
 
-	for day in table:
-		tab.append([BusTime(*x) for x in day])
-	
-	results = [x for x in tab[now.weekday()] if x >= BusTime(now.hour, now.minute, 0)][:NUM_TO_SHOW]
-	
-	if len(results) < NUM_TO_SHOW:
-		results += [x for x in tab[(now.weekday() + 1) % 7]][:NUM_TO_SHOW-len(results)]
+    for day in table:
+        tab.append([BusTime(*x) for x in day])
 
-	return results
+    results = [x for x in tab[now.weekday()] if x >= BusTime(now.hour, now.minute, 0)][:NUM_TO_SHOW]
+
+    if len(results) < NUM_TO_SHOW:
+        results += [x for x in tab[(now.weekday() + 1) % 7]][:NUM_TO_SHOW-len(results)]
+
+    return results
 
 app = flask.Flask(__name__)
 
