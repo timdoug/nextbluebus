@@ -189,7 +189,7 @@ def index():
     now = est_tz.normalize(datetime.datetime.utcnow().replace(tzinfo=pytz.UTC).astimezone(est_tz))
     now_pretty = now.strftime('%A ') + now.strftime('%I:%M %p').lstrip('0')
 
-    results_table = '\n'.join([TABLE_TEMPLATE % (h.html(), b.html()) for h, b in \
+    results_table = ''.join([TABLE_TEMPLATE % (h.html(), b.html()) for h, b in \
         zip(get_times(now, HC_TO_BMC), get_times(now, BMC_TO_HC))])
 
     return PAGE_TEMPLATE % (now_pretty, results_table)
