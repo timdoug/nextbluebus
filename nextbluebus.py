@@ -1,7 +1,9 @@
-import pytz
+#!/usr/bin/python
+
 import datetime
-from google.appengine.ext import webapp
-from google.appengine.ext.webapp.util import run_wsgi_app
+
+import pytz
+import flask
 
 NUM_TO_SHOW = 5
 
@@ -195,27 +197,23 @@ def get_times(now, table):
 
 	return results
 
-class MainPage(webapp.RequestHandler):
-	def get(self):
-		est_tz = pytz.timezone('US/Eastern')
-		now = est_tz.normalize(datetime.datetime.utcnow().replace(tzinfo=pytz.UTC).astimezone(est_tz))
-		now_pretty = now.strftime('%A ') + now.strftime('%I:%M %p').lstrip('0')
-		
-		hc_to_bmc_times = get_times(now, HC_TO_BMC)
-		bmc_to_hc_times = get_times(now, BMC_TO_HC)
-		results_table = ''
-		
-		for i in xrange(NUM_TO_SHOW):
-			results_table += '<tr><td><font color="red">%s</font></td><td><font color="blue">%s</font></td></tr>\n' % \
-				(hc_to_bmc_times[i].html(), bmc_to_hc_times[i].html())
+app = flask.Flask(__name__)
 
-		self.response.headers['Content-Type'] = 'text/html'
-		self.response.out.write(PAGE_TEMPLATE % (now_pretty, results_table))
+@app.route("/")
+def index():
+    est_tz = pytz.timezone('US/Eastern')
+    now = est_tz.normalize(datetime.datetime.utcnow().replace(tzinfo=pytz.UTC).astimezone(est_tz))
+    now_pretty = now.strftime('%A ') + now.strftime('%I:%M %p').lstrip('0')
 
-application = webapp.WSGIApplication([('/', MainPage)], debug=True)
+    hc_to_bmc_times = get_times(now, HC_TO_BMC)
+    bmc_to_hc_times = get_times(now, BMC_TO_HC)
+    results_table = ''
 
-def main():
-	run_wsgi_app(application)
+    for i in xrange(NUM_TO_SHOW):
+        results_table += '<tr><td><font color="red">%s</font></td><td><font color="blue">%s</font></td></tr>\n' % \
+            (hc_to_bmc_times[i].html(), bmc_to_hc_times[i].html())
 
-if __name__ == '__main__':
-	main()
+    return PAGE_TEMPLATE % (now_pretty, results_table)
+
+if __name__ == "__main__":
+    app.run()
