@@ -141,17 +141,6 @@ PAGE_TEMPLATE = '''<html>
 <!-- thanks to Dylan Neves-Cox for the icon -->
 <link rel="apple-touch-icon-precomposed" href="static/icon.png" />
 <title>nextblueb.us</title>
-<script type="text/javascript">
-  var _gaq = _gaq || [];
-  _gaq.push(['_setAccount', 'UA-20844661-1']);
-  _gaq.push(['_trackPageview']);
-
-  (function() {
-    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-  })();
-</script>
 </head>
 <body><center>
 <h2>When is the next <font color=blue>Blue Bus</font>?</h2>
