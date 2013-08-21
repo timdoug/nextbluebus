@@ -181,7 +181,7 @@ def get_times(now, table):
 
     return results
 
-app = flask.Flask(__name__)
+app = flask.Flask(__name__, static_folder='static')
 
 @app.route('/')
 def index():
