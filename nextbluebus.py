@@ -160,6 +160,7 @@ Have some Python chops? Want to take over site maintainence? <a href="https://gi
 </center></body>
 </html>
 '''
+TABLE_TEMPLATE ='<tr><td><font color="red">%s</font></td><td><font color="blue">%s</font></td></tr>\n'
 
 
 class BusTime(datetime.time):
@@ -169,42 +170,31 @@ class BusTime(datetime.time):
 
     def html(self):
         res = self.strftime('%I:%M %p').lstrip('0')
-        if self.sweeperp:
-            res = '<b>%s</b>' % res
-        return res
+        return ('<b>%s</b>' % res) if self.sweeperp else res
 
 def get_times(now, table):
-    tab = []
-
-    for day in table:
-        tab.append([BusTime(*x) for x in day])
-
+    tab = [[BusTime(*x) for x in day] for day in table]
     results = [x for x in tab[now.weekday()] if x >= BusTime(now.hour, now.minute, 0)][:NUM_TO_SHOW]
 
     if len(results) < NUM_TO_SHOW:
-        results += [x for x in tab[(now.weekday() + 1) % 7]][:NUM_TO_SHOW-len(results)]
+        results += tab[(now.weekday() + 1) % 7][:NUM_TO_SHOW-len(results)]
 
     return results
 
 app = flask.Flask(__name__)
 
-@app.route("/")
+@app.route('/')
 def index():
     est_tz = pytz.timezone('US/Eastern')
     now = est_tz.normalize(datetime.datetime.utcnow().replace(tzinfo=pytz.UTC).astimezone(est_tz))
     now_pretty = now.strftime('%A ') + now.strftime('%I:%M %p').lstrip('0')
 
-    hc_to_bmc_times = get_times(now, HC_TO_BMC)
-    bmc_to_hc_times = get_times(now, BMC_TO_HC)
-    results_table = ''
-
-    for i in xrange(NUM_TO_SHOW):
-        results_table += '<tr><td><font color="red">%s</font></td><td><font color="blue">%s</font></td></tr>\n' % \
-            (hc_to_bmc_times[i].html(), bmc_to_hc_times[i].html())
+    results_table = '\n'.join([TABLE_TEMPLATE % (h.html(), b.html()) for h, b in \
+        zip(get_times(now, HC_TO_BMC), get_times(now, BMC_TO_HC))])
 
     return PAGE_TEMPLATE % (now_pretty, results_table)
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     import os
     if 'PRODUCTION' in os.environ:
         from gevent.wsgi import WSGIServer
