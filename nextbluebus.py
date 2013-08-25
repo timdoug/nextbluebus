@@ -197,7 +197,9 @@ def index():
 if __name__ == '__main__':
     import os
     if 'PRODUCTION' in os.environ:
+        print '*** PRODUCTION ***'
         from gevent.wsgi import WSGIServer
         WSGIServer(('127.0.0.1', 5000), app).serve_forever()
     else:
+        print '*** debug ***'
         app.run(debug=True)
