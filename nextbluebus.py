@@ -168,7 +168,7 @@ class BusTime(datetime.time):
         datetime.time.__init__(hour, minute)
         self.sweeperp = sweeperp
 
-    def html(self):
+    def __str__(self):
         res = self.strftime('%I:%M %p').lstrip('0')
         return ('<b>%s</b>' % res) if self.sweeperp else res
 
@@ -191,7 +191,7 @@ def index():
     now = est_tz.normalize(datetime.datetime.utcnow().replace(tzinfo=pytz.UTC).astimezone(est_tz))
     now_pretty = now.strftime('%A ') + now.strftime('%I:%M %p').lstrip('0')
 
-    results_table = ''.join([TABLE_TEMPLATE % (h.html(), b.html()) for h, b in \
+    results_table = ''.join([TABLE_TEMPLATE % (h, b) for h, b in \
         zip(get_times(now, HC_TO_BMC), get_times(now, BMC_TO_HC))])
 
     return PAGE_TEMPLATE % (now_pretty, results_table)
