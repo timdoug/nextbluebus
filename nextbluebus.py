@@ -7,7 +7,7 @@ import flask
 
 NUM_TO_SHOW = 5
 
-HC_TO_BMC = (
+HC_TO_BMC_RAW = (
 # Monday
 (
 ( 0, 15, 0), ( 7, 40, 0), ( 8, 40, 0), ( 8, 50, 1), ( 9, 40, 0), ( 9, 50, 1), (10, 15, 0),
@@ -70,7 +70,7 @@ HC_TO_BMC = (
 ),
 )
 
-BMC_TO_HC = (
+BMC_TO_HC_RAW = (
 # Monday
 (
 ( 0, 00, 0), ( 7, 25, 0), ( 8, 10, 0), ( 9, 10, 0), ( 9, 20, 1), (10, 00, 0), (10, 10, 1),
@@ -172,8 +172,10 @@ class BusTime(datetime.time):
         res = self.strftime('%I:%M %p').lstrip('0')
         return ('<b>%s</b>' % res) if self.sweeperp else res
 
-def get_times(now, table):
-    tab = [[BusTime(*x) for x in day] for day in table]
+HC_TO_BMC = [[BusTime(*x) for x in day] for day in HC_TO_BMC_RAW]
+BMC_TO_HC = [[BusTime(*x) for x in day] for day in BMC_TO_HC_RAW]
+
+def get_times(now, tab):
     results = [x for x in tab[now.weekday()] if x >= BusTime(now.hour, now.minute, 0)][:NUM_TO_SHOW]
 
     if len(results) < NUM_TO_SHOW:
