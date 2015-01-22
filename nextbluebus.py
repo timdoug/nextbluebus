@@ -150,7 +150,7 @@ Current time: %s<br>
 <tr><td><font color="red">HC to BMC</font></td><td><font color="blue">BMC to HC</font></td></tr>
 %s</table><br>
 Sweepers in <b>bold</b>.<br>
-Up-to-date as of August 25th, <b>2014</b>.<br>
+Up-to-date as of January 21st, <b>2015</b>.<br>
 <br>
 The full official schedule is available <a href="http://www.brynmawr.edu/transportation/bico.shtml">here</a>.<br>
 <br>
